@@ -1,6 +1,11 @@
 const Redis = require("redis"); //redis is a key-value store
 const bodyParser = require("body-parser"); //this will transform te order request from json to the data base
 const express = require("express"); //express makes APIs - connect frontend to server
+const cors = require("cors"); //cors is used to allow cross-origin requests
+
+const options = {
+  origin: "http://localhost:3000", //allow requests from localhost:3000
+};
 // Connect Redis
 const client = Redis.createClient({
   url: "redis://localhost:6379",
@@ -17,6 +22,7 @@ console.log("hello world");
 //req= the request from the browser
 //res= the response from the server
 app.use(bodyParser.json());
+app.use(cors(options));//cors is used to allow cross-origin requests
 
 app.get("/boxes", (req, res) => {
   let boxes = client.json.get("boxes", { path: "$" }); //get boxes from redis
