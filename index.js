@@ -13,7 +13,7 @@ const client = Redis.createClient({
 client.on("error", (err) => console.log("Redis Client Error", err));
 
 const app = express(); //create express app
-const port = 3000; //set port
+const port = 3001; //set port
 
 console.log("hello world");
 
@@ -22,10 +22,10 @@ console.log("hello world");
 //req= the request from the browser
 //res= the response from the server
 app.use(bodyParser.json());
-app.use(cors(options));//cors is used to allow cross-origin requests
+app.use(cors());//cors is used to allow cross-origin requests
 
-app.get("/boxes", (req, res) => {
-  let boxes = client.json.get("boxes", { path: "$" }); //get boxes from redis
+app.get("/boxes", async (req, res) => {
+  let boxes = await client.json.get("boxes"); //get boxes from redis
 
   res.send(JSON.stringify(boxes)); //send boxes as a string to the browser
 });
