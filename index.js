@@ -47,3 +47,19 @@ app.listen(port, () => {
   client.connect();
   console.log(`Listening on port ${port}`);
 }); //listen on port 3000
+//A function to create a new product
+app.post('/products', async (req, res)=>{// async means we will await promises
+
+  const newProduct = req.body; //getting the body from postman, you can edit the products there!!!
+
+  const productKey = `product:${newProduct.productID}-${Date.now()}`;//creating the unique product ID (to name it in redis), with the productID and the current date information
+
+  try {
+      // Set the value of the 'product' key in Redis with the JSON object
+      await client.json.set(productKey, '.', newProduct);
+      console.log('Product added successfully to Redis');
+    } catch (error) {
+      console.error('Error adding product to Redis:', error);
+    }
+  res.json(newProduct);//respond with a new product
+});
