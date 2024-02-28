@@ -63,3 +63,35 @@ app.post('/products', async (req, res)=>{// async means we will await promises
     }
   res.json(newProduct);//respond with a new product
 });
+
+app.get('/products/:productID', async (req, res)=> {
+  let products = await client.json.get(`product:${req.params.productID}`);
+  res.json(products);
+});
+
+//Order request
+app.post('/orders', async (req, res)=> {
+  let order = req.body;
+  //order details, include product quantity and shipping address
+  let responseStatus = order.productQuantity
+   ? 200
+   : 400 && order.shippingAddress
+   ? 200
+   : 400;
+
+   if (responseStatus === 200) {
+   try{
+    await addOrder({client, order});
+   } 
+   catch (error) {
+   res.status(500).send("Internal Server Error") ; return; }
+
+   } else {
+    res.Status(responseStatus);
+    res.send(
+      `Missing one of the following fields: ${exactMatchOrderFields()} ${partiallyMatchOrderFields()}`
+    );
+    }
+    res.status(responseStatus).send();
+   }
+);
