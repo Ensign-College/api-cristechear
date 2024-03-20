@@ -7,18 +7,15 @@ Resources:
     Properties:
       Handler: index.handler
       Runtime: nodejs14.x
-      CodeUri: .
+      CodeUri: ./
       MemorySize: 128
       Timeout: 30
-      Environment:
-        Variables:
-          REDIS_HOST: !GetAtt MyElasticacheRedis.EndpointAddress
       Events:
-        MyApi:
+        ApiGatewayEvent:
           Type: Api
           Properties:
-            Path: /myendpoint
-            Method: get
+            Path: /
+            Method: ANY
 
   MyVPC:
     Type: AWS::EC2::VPC
@@ -59,8 +56,3 @@ Resources:
           FromPort: 6379
           ToPort: 6379
           CidrIp: 0.0.0.0/0
-      SecurityGroupEgress:
-        - IpProtocol: tcp
-          FromPort: 6379
-          ToPort: 6379
-          DestinationSecurityGroupId: !GetAtt MyElasticacheRedis.SecurityGroupId
