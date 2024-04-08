@@ -2,10 +2,10 @@ const Redis = require("redis"); //redis is a key-value store
 const bodyParser = require("body-parser"); //this will transform te order request from json to the data base
 const express = require("express"); //express makes APIs - connect frontend to server
 const cors = require("cors"); //cors is used to allow cross-origin requests
-const { addOrder, getOrder } = require("./services/orderservice.js");
+const { addOrder, getOrder } = require("./services/Orders/orderservice.js");
 const { addOrderItem, getOrderItem } = require("./services/Orders/OrderItems.js");
 const fs = require("fs");
-const Schema = JSON.parse(fs.readFileSync("./orderItemSchema.json", "utf8"));
+const Schema = JSON.parse(fs.readFileSync("./services/Orders/orderItemSchema.json", "utf8"));
 const Ajv = require("ajv");
 const ajv = new Ajv();
 
