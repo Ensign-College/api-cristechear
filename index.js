@@ -4,7 +4,7 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const fs = require("fs");
 const { addOrder, getOrder } = require("./services/orderservice.js");
-const { addOrderItem, getOrderItem } = require("./services/orderItems");
+const { addOrderItem, getOrderItem } = require("./services/Orders/OrderItems.js");
 const Ajv = require("ajv");
 
 exports.test = async (event, context) => {
